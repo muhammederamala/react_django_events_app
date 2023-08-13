@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 
 import './createEvent.css'
+import { Link, redirect } from 'react-router-dom';
+import Welcome from '../welcome';
 
 function CreateEvent() {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventImage, setEventImage] = useState(null);
+  const [eventCreated, setEventCreated] = useState(false);
 
   const handleImageChange = (e) => {
     setEventImage(e.target.files[0]);
@@ -31,6 +34,7 @@ function CreateEvent() {
 
       if (response.status === 201) {
         console.log('Event created successfully');
+        setEventCreated(true);
       } else {
         console.error('Failed to create event');
       }
@@ -38,6 +42,11 @@ function CreateEvent() {
       console.error('Error during API request', error);
     }
   };
+
+  if (eventCreated) {
+    return < redirect to='welcome/' />;
+  }
+
 
   return (
     <div className='create-event-form'>
@@ -100,6 +109,7 @@ function CreateEvent() {
       </form>
     </div>
   );
+
 }
 
 export default CreateEvent;

@@ -59,3 +59,18 @@ def CreateEvent(request):
         return JsonResponse({'message':'Event Created Succesfully'})
     else:
         return JsonResponse({'message':'Event Creation Failed'},status = 400)
+
+
+def ListAllEvents(request):
+    events = CreateEventModel.objects.all()
+    event_data = [
+        {
+            'id': event.id,
+            'name': event.name,
+            'date': event.date.strftime('%Y-%m-%d'),
+            'description': event.description,
+            'image_url': event.image.url,
+        }
+        for event in events
+    ]
+    return JsonResponse(event_data, safe=False)
