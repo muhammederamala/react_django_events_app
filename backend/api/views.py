@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
 from rest_framework import status
+from rest_framework.decorators import api_view
 
 
 
@@ -78,10 +79,11 @@ def ListAllEvents(request):
 
     return JsonResponse({'events':event_list})
 
+@api_view(['DELETE'])
 def delete_event(request,event_id):
     try:
-        event = Event.objects.get(pk=event_id)
+        event = CreateEventModel.objects.get(pk=event_id)
         event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    except Event.DoesNotExist:
-        return Response(data={'message': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse(data={}, status=status.HTTP_204_NO_CONTENT)
+    except CreateEventModel.DoesNotExist:
+        return JsonResponse(data={'message': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
