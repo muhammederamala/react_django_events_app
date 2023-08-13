@@ -44,6 +44,7 @@ function CreateEvent() {
   };
 
   const navigate = useNavigate();
+  const { eventCreated } = this.state;
   if(eventCreated){
     navigate('welcome/')
   }
