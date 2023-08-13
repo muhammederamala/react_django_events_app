@@ -11,6 +11,7 @@ function CreateEvent() {
   const [eventDescription, setEventDescription] = useState('');
   const [eventImage, setEventImage] = useState(null);
   const [eventCreated, setEventCreated] = useState(false);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     setEventImage(e.target.files[0]);
@@ -32,9 +33,10 @@ function CreateEvent() {
         },
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log('Event created successfully');
         setEventCreated(true);
+        navigate(-1);
       } else {
         console.error('Failed to create event');
       }
@@ -43,13 +45,7 @@ function CreateEvent() {
     }
   };
 
-  const navigate = useNavigate();
-  const { eventCreated } = this.state;
-  if(eventCreated){
-    navigate('welcome/')
-  }
-
-
+  
   return (
     <div className='create-event-form'>
       <h2 className='form-title'>Create Event</h2>
