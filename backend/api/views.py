@@ -4,6 +4,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
+from rest_framework import status
+
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -63,14 +65,23 @@ def CreateEvent(request):
 
 def ListAllEvents(request):
     events = CreateEventModel.objects.all()
-    event_data = [
-        {
-            'id': event.id,
+    event_list = []
+    for event in events:
+        event_data = {
+            'id':event.id,
             'name': event.name,
             'date': event.date.strftime('%Y-%m-%d'),
             'description': event.description,
             'image_url': event.image.url,
         }
-        for event in events
-    ]
-    return JsonResponse(event_data, safe=False)
+        event_list.append(event_data)
+
+    return JsonResponse({'events':event_list})
+
+def delete_event(request,event_id):
+    try:
+        event = Event.objects.get(pk=event_id)
+        event.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except Event.DoesNotExist:
+        return Response(data={'message': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
