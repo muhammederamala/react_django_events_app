@@ -1,0 +1,46 @@
+/* all_events.css */
+.event-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  height: 320px;
+  margin-top: 50px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex-basis: 50%; /* Two columns, each taking 50% width */
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.event-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.event-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.event-info {
+  margin-top: 10px;
+}
+
+.event-price {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #e63946;
+}
+
+.event-description {
+  color: #555;
+}

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+import json
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -21,7 +22,6 @@ def login_view(request):
         else:
             return JsonResponse({'message': 'Login failed'}, status=400)
 
-import json
 
 @csrf_exempt
 def signup_view(request):
@@ -38,4 +38,24 @@ def signup_view(request):
         user.save()
 
         return JsonResponse({'message': 'Registration successful'})
-        
+
+from .models import CreateEventModel
+
+@csrf_exempt
+def CreateEvent(request):
+    if request.method =='POST':
+        event_name = request.POST.get('name')
+        event_date = request.POST.get('date')
+        event_description = request.POST.get('description')
+        event_image = request.FILES.get('image')
+
+        new_event = CreateEventModel(
+            name = event_name,
+            date = event_date,
+            description = event_description,
+            image = event_image
+        )
+        new_event.save()
+        return JsonResponse({'message':'Event Created Succesfully'})
+    else:
+        return JsonResponse({'message':'Event Creation Failed'},status = 400)
