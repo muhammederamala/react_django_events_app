@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 
 import './createEvent.css'
-import { Link, redirect } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import Welcome from '../welcome';
 
 function CreateEvent() {
@@ -43,8 +43,9 @@ function CreateEvent() {
     }
   };
 
-  if (eventCreated) {
-    return < redirect to='welcome/' />;
+  const navigate = useNavigate();
+  if(eventCreated){
+    navigate('welcome/')
   }
 
 
