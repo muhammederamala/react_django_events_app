@@ -14,7 +14,6 @@ function AllEvents({ event, onDelete }) {
     axios
       .delete(`http://localhost:8000/api/delete_event/${event.id}/`)
       .then(() => {
-        // Update the UI to remove the deleted event
         onDelete(event.id);
       })
       .catch(error => {
@@ -37,13 +36,13 @@ function AllEvents({ event, onDelete }) {
           <button onClick={handleDelete} className='btn btn-danger'>
             Delete
           </button>
-          <button  className='btn btn-primary'  style={{ float: 'right' }}>
+          <button style={{ float: 'right', color: 'white' }}>
             <FontAwesomeIcon icon={faHeart} color='red' />
           </button>
         </div>
         <div className='col'>
           <div className='event-info'>
-            <h3 className='event-price'>${event.date}</h3>
+            <h3 className='event-price'>{event.date}</h3>
             <p className='event-description'>{event.description}</p>
           </div>
         </div>

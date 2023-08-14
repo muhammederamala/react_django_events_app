@@ -1,38 +1,29 @@
-import React, { Component } from 'react';
-
-
-// components
+import React, { useState } from 'react';
 import './login.css';
-import Welcome from '../../pages/welcome';
+import { useNavigate } from 'react-router-dom';
 
+function Login() {
+  const navigate = useNavigate();
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      isLoggedIn: false,
-    };
-  }
-
-  handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
+    if (name === 'username') {
+      setUsername(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
   };
 
-  handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const { username, password } = this.state;
 
     // Send the login data to Django backend
     try {
-      const csrfToken = this.getCookie('csrftoken');
+      const csrfToken = getCookie('csrftoken');
       const response = await fetch('http://localhost:8000/api/login/', {
         method: 'POST',
         headers: {
@@ -44,65 +35,59 @@ class Login extends Component {
 
       if (response.ok) {
         // Successful login logic
-        this.setState({ isLoggedIn: true });
+        setIsLoggedIn(true);
         console.log('Login successful');
-       
+        navigate('welcome/')
       } else {
         // Handle unsuccessful login
         console.log('Login failed');
+        navigate('/')
       }
     } catch (error) {
       console.error('Error during login:', error);
     }
   };
 
-  getCookie(name) {
+  const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
-        return parts.pop().split(';').shift();
+      return parts.pop().split(';').shift();
     }
-}
+  };
 
-  render() {
 
-    const { isLoggedIn } = this.state;
-
-    if (isLoggedIn) {
-      return <Welcome />;
-    }
-
-    return (
-      <div className="login-container">
-        <form className="login-form" onSubmit={this.handleSubmit}>
-          <h2>Login</h2>
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <div className="input-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <button type="submit">Login</button><br></br>
+        <a href='signup/'>Don't have an account?</a>
+      </form>
+    </div>
+  );
 }
 
 export default Login;

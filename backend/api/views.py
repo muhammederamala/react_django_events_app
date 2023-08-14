@@ -6,6 +6,9 @@ from django.http import JsonResponse
 import json
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -63,7 +66,7 @@ def CreateEvent(request):
     else:
         return JsonResponse({'message':'Event Creation Failed'},status = 400)
 
-
+@api_view(['GET'])
 def ListAllEvents(request):
     events = CreateEventModel.objects.all()
     event_list = []
@@ -77,7 +80,7 @@ def ListAllEvents(request):
         }
         event_list.append(event_data)
 
-    return JsonResponse({'events':event_list})
+    return Response({'events':event_list})
 
 @api_view(['DELETE'])
 def delete_event(request,event_id):
@@ -87,3 +90,21 @@ def delete_event(request,event_id):
         return JsonResponse(data={}, status=status.HTTP_204_NO_CONTENT)
     except CreateEventModel.DoesNotExist:
         return JsonResponse(data={'message': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@login_required
+def ListUserEvents(request):
+    user = request.user
+    events = CreateEventModel.objects.filter(user=user)
+
+    event_list = []
+    for event in events:
+        event_data = {
+            'id': event.id,
+            'name': event.name,
+            'date': event.date.strftime('%Y-%m-%d'),
+            'description': event.description,
+            'image_url': event.image.url,
+        }
+        event_list.append(event_data)
+
+    return JsonResponse({'events': event_list})

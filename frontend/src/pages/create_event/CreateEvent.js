@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 import './createEvent.css'
 import { Link, redirect, useNavigate } from 'react-router-dom';

@@ -14,7 +14,7 @@
 }
 
 .col {
-  flex-basis: 50%; /* Two columns, each taking 50% width */
+  flex-basis: 50%;
   box-sizing: border-box;
   padding: 0 10px;
 }

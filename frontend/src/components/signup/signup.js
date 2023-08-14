@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './signup.css';
 import Login from '../login/login';
+import { useNavigate } from 'react-router';
 
+function SignUp() {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [signedUp, setSignedUp] = useState(false);
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      signedUp: false,
-    };
-  }
-
-  handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
+    if (name === 'username') {
+      setUsername(value);
+    } else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
   };
 
-  handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const { username, email, password } = this.state;
 
     // Send the registration data to Django backend
     try {
-      const csrfToken = this.getCookie('csrftoken');
+      const csrfToken = getCookie('csrftoken');
       const response = await fetch('http://localhost:8000/api/signup_view/', {
         method: 'POST',
         headers: {
@@ -41,7 +39,8 @@ class SignUp extends Component {
       if (response.ok) {
         // Successful registration logic
         console.log('Registration successful');
-        this.setState({ signedUp: true });
+        setSignedUp(true);
+        navigate('/')
       } else {
         // Handle unsuccessful registration
         console.log('Registration failed');
@@ -51,64 +50,55 @@ class SignUp extends Component {
     }
   };
 
-  getCookie(name) {
+  const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
-        return parts.pop().split(';').shift();
+      return parts.pop().split(';').shift();
     }
-}
+  };
 
-  render() {
-
-    const { signedUp } = this.state;
-
-    if (signedUp) {
-      return <Login />;
-    }
-
-    return (
-      <div className="signup-container">
-        <form className="signup-form" onSubmit={this.handleSubmit}>
-          <h2>Create an Account</h2>
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="signup-container">
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <h2>Create an Account</h2>
+        <div className="input-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  );
 }
 
 export default SignUp;

@@ -15,10 +15,10 @@ function MyNavbar() {
             <Nav.Link href="#link">Log Out</Nav.Link>
             <NavDropdown title="My events" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">My Event</NavDropdown.Item>
-              <NavDropdown.Item href="/create_event">
-                Create Event +
+              <NavDropdown.Item href="#">
+                All events
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item href="/create_event">Create Event +</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
                 Separated link
