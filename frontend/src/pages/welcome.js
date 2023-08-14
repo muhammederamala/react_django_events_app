@@ -5,8 +5,7 @@ import axios from 'axios';
 // Components
 import products from '../products'
 import AllEvents from '../components/all_events/all_events'
-import Navbar from '../components/navbar/Navbar'
-
+import MyNavbar from '../components/navbar/Navbar';
 function Welcome() {
   const [events , setEvents] = useState([]);
 
@@ -27,7 +26,7 @@ function Welcome() {
 
   return (
     <div>
-      <Navbar />
+      <MyNavbar />
       <Row>
                 {events.length > 0 ? (
                     events.map(event => (

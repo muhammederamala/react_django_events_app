@@ -6,7 +6,7 @@ import SignUp from './components/signup/signup';
 import Login from './components/login/login';
 import Welcome from './pages/welcome';
 import CreateEvent from './pages/create_event/CreateEvent';
-
+import UserEvent from './pages/UserEvent/UserEvent';
 
 import { 
   createBrowserRouter, 
@@ -22,6 +22,7 @@ const router = createBrowserRouter(
       <Route path='signup/' element={<SignUp />} />
       <Route path='welcome/' element={<Welcome />} />
       <Route path='create_event/' element={<CreateEvent />} />
+      <Route path='user_event/' element={<UserEvent />} />
     </Route>
   )
 )

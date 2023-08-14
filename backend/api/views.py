@@ -107,4 +107,4 @@ def ListUserEvents(request):
         }
         event_list.append(event_data)
 
-    return JsonResponse({'events': event_list})
+    return JsonResponse({'userEvents': event_list})

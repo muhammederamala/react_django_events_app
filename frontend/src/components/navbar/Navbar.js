@@ -14,7 +14,7 @@ function MyNavbar() {
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Log Out</Nav.Link>
             <NavDropdown title="My events" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">My Event</NavDropdown.Item>
+              <NavDropdown.Item href="/user_event/">My Event</NavDropdown.Item>
               <NavDropdown.Item href="#">
                 All events
               </NavDropdown.Item>
