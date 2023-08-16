@@ -1,12 +1,19 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomeScreen from './screens/HomeScreen';
 import { Container } from 'react-bootstrap';
-import { createBrowserRouter , createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter , createRoutesFromElements, Route, RouterProvider,Routes } from 'react-router-dom'
+
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-        <Route index element={<HomeScreen />} />
+        <Route>
+        <Route path='/' element={<HomeScreen />} exact />
+        <Route path='/cart' element={<ProductScreen />} />
+        <Route path='/product/:id' element={<ProductScreen />} />
+        </Route>
   )
 )
 
